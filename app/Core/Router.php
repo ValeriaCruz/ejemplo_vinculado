@@ -2,44 +2,37 @@
 
 class Router
 {
+    private array $routes = [];
 
-    private $routes = [];
 
-
-    public function get($url, $controller)
+    public function get($path, $callback)
     {
-        $this->routes['GET'][$url] = $controller;
+        $this->routes['GET'][$path] = $callback;
     }
 
 
     public function dispatch()
     {
-
         $method = $_SERVER['REQUEST_METHOD'];
 
-        $url = $_SERVER['REQUEST_URI'];
+        $uri = parse_url(
+            $_SERVER['REQUEST_URI'],
+            PHP_URL_PATH
+        );
 
-        // Eliminamos parámetros GET
-        $url = explode('?', $url)[0];
 
-
-        if(isset($this->routes[$method][$url]))
+        if(isset($this->routes[$method][$uri]))
         {
+            call_user_func(
+                $this->routes[$method][$uri]
+            );
 
-            $controller = $this->routes[$method][$url];
-
-            $controller();
-
-        }
-        else
-        {
-
-            http_response_code(404);
-
-            echo "Página no encontrada";
-
+            return;
         }
 
+
+        http_response_code(404);
+
+        echo "404 - Página no encontrada";
     }
-
 }

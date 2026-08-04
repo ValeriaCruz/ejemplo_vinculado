@@ -1,0 +1,25 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local
+.env
+.env.local
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.cache
+
+# Configuración del editor
+.vscode/
+.idea/
+
+# Dependencias (si usas Composer y prefieres no subirlas)
+vendor/
+
+# Archivos de respaldo
+*.bak
+*.zip
